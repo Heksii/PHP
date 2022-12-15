@@ -1,0 +1,233 @@
+@font-face {
+  font-family: "PT Sans Narrow";
+  src: url("../fonts/PTSansNarrow-Regular.ttf");
+}
+@font-face {
+  font-family: "Ubuntu";
+  src: url("../fonts/Ubuntu-Regular.ttf");
+}
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "PT Sans narrow", sans-serif;
+}
+
+h4, h3, h2, h1 {
+  font-family: "Ubuntu", sans-serif;
+}
+
+h1 {
+  font-size: 2.5 rem;
+}
+
+h2 {
+  font-size: 2 rem;
+}
+
+h3 {
+  font-size: 1.5 rem;
+}
+
+h4 {
+  font-size: 1 rem;
+}
+
+h1 {
+  font-size: 36px;
+  margin: 2rem 0;
+}
+
+a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 90rem;
+  min-height: 100vh;
+  font-family: sans-serif;
+}
+body.dark {
+  background-color: #bfbfbf;
+}
+
+img {
+  max-width: 100%;
+}
+
+.flex, footer, #cards .card, header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.grow, #cards .card div {
+  flex-grow: 1;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  max-width: 90rem;
+  top: 0;
+  height: 3rem;
+  padding: 0 0.5rem;
+  box-sizing: border-box;
+  gap: 1rem;
+  background-image: linear-gradient(#dc7777, #8d2525);
+  color: lightgray;
+}
+header img {
+  height: 2rem;
+  opacity: 0.6;
+}
+
+nav {
+  width: 11.5rem;
+  position: fixed;
+  top: 3rem;
+  bottom: 0;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  background-color: #fff;
+}
+nav ul {
+  list-style: none;
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+}
+nav ul a {
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+main {
+  padding-top: 3rem;
+  margin-left: 12rem;
+}
+main ul {
+  padding-left: 15px;
+}
+main > img {
+  width: 100%;
+  margin: 2rem 0 2rem 0;
+}
+
+.error-box {
+  display: none;
+}
+
+.error-box.has-errors {
+  display: block;
+  gap: 0.5rem;
+  padding: 8px;
+  margin-bottom: 1rem;
+  background-color: rgba(255, 0, 0, 0.2666666667);
+  border: 1px solid #900;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.error-box.has-errors li {
+  margin-left: 16px;
+  color: #900;
+}
+
+#cards {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+#cards button {
+  background-image: linear-gradient(#dc7777, #8d2525);
+  color: #fff;
+  height: 3rem;
+  font-size: 1.2rem;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+}
+#cards .card {
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  flex-direction: column;
+  background-color: #fff;
+  width: calc(33.3333333333% - 0.6666666667rem); /* Undskyld */
+  box-sizing: border-box;
+}
+#cards .card img {
+  width: 100%;
+  height: auto;
+}
+#cards .card div {
+  margin: 5px;
+}
+#cards .card h2, #cards .card h3, #cards .card span {
+  margin-bottom: 1.5rem;
+}
+#cards .card h3 {
+  font-size: 16px;
+}
+#cards .card p span {
+  display: block;
+  width: 100%;
+}
+#cards .card:nth-child(3n+0) {
+  margin-right: 0;
+}
+
+footer {
+  margin-left: 12rem;
+  align-items: flex-start;
+  padding-top: 4rem;
+  margin-top: 3rem;
+  border-top: #000 1px solid;
+  margin-bottom: 3rem;
+}
+footer img {
+  height: 2rem;
+  opacity: 0.6;
+}
+footer ul {
+  list-style: none;
+  flex: 1 0 0;
+  line-height: 1.5;
+}
+footer form {
+  flex: 1 0 0;
+  background-color: #fff;
+  padding: 0.3rem;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: 0.5rem;
+}
+form h2 {
+  grid-column: span 2;
+}
+form label {
+  font-size: 1.2rem;
+}
+form input[type=text], form select {
+  width: 16rem;
+  border-radius: 0;
+  border: 1px solid gray;
+  background-color: white;
+}
+form input[type=submit] {
+  width: 8rem;
+  background-color: #f0f0f0;
+  border-radius: 1rem;
+  grid-column: 2;
+}
+
+.required::after {
+  content: "*";
+}/*# sourceMappingURL=style.css.map */

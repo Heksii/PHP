@@ -1,0 +1,253 @@
+@import "_variables.scss";
+
+@font-face {
+    font-family: "PT Sans Narrow";
+    src: url("../fonts/PTSansNarrow-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Ubuntu";
+    src: url("../fonts/Ubuntu-Regular.ttf");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: $body-font;
+}
+
+%heading {
+    font-family: $heading-font;
+}
+@for $i from 1 through 4{
+    h#{$i} {
+        @extend %heading;
+        font-size: calc(3 - $i / 2)rem;
+    }
+}
+
+h1{
+    font-size: 36px;
+    margin: 2rem 0;
+}
+
+a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    margin: 0 auto;
+    max-width: $page-width;
+    min-height: 100vh;
+    font-family: sans-serif;
+
+    &.dark {
+        background-color: darken(#fff, 25%);
+    }
+}
+
+img {
+    max-width: 100%;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    max-width: $page-width;
+    top: 0;
+    @extend .flex;
+    height: $header-height;
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+    gap: 1rem;
+    background-image: $header-gradient;
+    color: $header-color;
+
+    img {
+        height: calc($header-height - 1rem);
+        opacity: 0.6;
+    }
+
+}
+
+nav {
+    //Space between nav and main
+    width: calc($nav-width - 0.5rem);
+    position: fixed;
+    top: $header-height;
+    bottom: 0;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    background-color: $nav-color;
+    
+    ul {
+        list-style: none;
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+
+        a {
+            margin-top: 1rem;
+            padding: 0.5rem 0;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    }
+}
+
+main {
+    padding-top: $header-height;
+    margin-left: $nav-width;
+    ul{
+      padding-left: 15px;
+    }
+    > img{
+        width: 100%;
+        margin: 2rem 0 2rem 0;
+    }
+}
+
+.error-box {
+    display: none;
+}
+
+.error-box.has-errors {
+    display: block;
+    gap: 0.5rem;
+    padding: 8px;
+    margin-bottom: 1rem;
+    background-color: #f004;
+    border: 1px solid #900;
+    width: fit-content;
+
+    li {
+        margin-left: 16px;
+        color: #900;
+    }
+}
+
+#cards {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+
+    button{
+        background-image: $header-gradient;
+        color: #fff;
+        height: 3rem;
+        font-size: 1.2rem;
+        width: 100%;
+        border: none;
+        cursor: pointer;
+    }
+
+    .card {
+        @extend .flex;
+        margin-bottom: 1rem;
+        margin-right: 1rem;
+        flex-direction: column;
+        background-color: #fff;
+        width: calc(100% / 3 - (2rem / 3)); /* Undskyld */
+        box-sizing: border-box;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+        div {
+            @extend .grow;
+            margin: 5px;
+        }
+
+        h2, h3, span {
+            margin-bottom: 1.5rem;
+        }
+        
+        h3 {
+            font-size: 16px;
+        }
+
+        p {
+
+            span {
+                display: block;
+                width: 100%;
+            }
+        }
+    }
+
+    .card:nth-child(3n+0) {
+        margin-right: 0;
+    }
+}
+
+footer {
+    margin-left: $nav-width;
+    @extend .flex;
+    align-items: flex-start;
+    padding-top: 4rem;
+    margin-top: 3rem;
+    border-top: #000 1px solid;
+    margin-bottom: 3rem;
+    img {
+        height: calc($header-height - 1rem);
+        opacity: 0.6;
+    }
+
+    ul{
+        list-style: none;
+        flex: 1 0 0;
+        line-height: 1.5;
+    }
+
+    form {
+        flex: 1 0 0;
+        background-color: $nav-color;
+        padding: 0.3rem;
+    }
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    gap: 0.5rem;
+
+    h2 {
+        grid-column: span 2;
+    }
+
+    label {
+        font-size: 1.2rem;
+    }
+
+    input[type="text"], select {
+        width: 16rem;
+        border-radius: 0;
+        border: 1px solid gray;
+        background-color: white;
+    }
+
+    input[type="submit"] {
+        width: 8rem;
+        background-color: $button-color;
+        border-radius: 1rem;
+        grid-column: 2;
+    }
+}
+
+.required::after {
+    content: "*";
+}
+
