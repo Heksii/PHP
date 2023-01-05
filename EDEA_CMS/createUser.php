@@ -1,21 +1,43 @@
 <?php
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 
+$db = new mysqli("localhost", "casp196b_edea_admin", "fg}LrBz%p4h}sp@W8l", "casp196b_edea");
 $_SESSION["registerErrors"] = [];
+$_SESSION["userToValidate"] = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION["userToValidate"] = $_POST;
-    ValidateUser();
-
+    ValidateUser($db);
+    
     if (count($_SESSION["registerErrors"]) == 0) {
-        $_SESSION["user"] = $_SESSION["userToValidate"];
-        unset($_SESSION["userToValidate"]);
+        $user = $_SESSION["userToValidate"];
 
-        header("Location: createUserLanding.php");
+        InsertUserInDb($db, $_SESSION["userToValidate"]);
+
+        if (!$db->error) {
+            $_SESSION["currentUser"] = $user["name"];
+
+            unset(
+                $_SESSION["userToValidate"], 
+                $_SESSION["registerErrors"],
+            );
+            print_r($user);
+            echo "INSERT INTO users (username, password, firstname, lastname, adresse, zipcode, city, country, mail, phonenumber, gender) VALUES ('{$user["name"]}','{$user["password"]}','{$user["first-name"]}','{$user["last-name"]}','{$user["address"]}','{$user["zipcode"]}','{$user["city"]}','{$user["country"]}','{$user["mail"]}','{$user["phone"]}','{$user["gender"]}')";
+            //header("Location: createUserLanding.php");
+        }
+        else {
+            $_SESSION["registerErrors"][] = "Kunne ikke gemme bruger i databasen.\n" . $db->error;
+        }
     }
 }
 
-function ValidateUser()
+function InsertUserInDb($db, $user)
+{
+    return $db->query("INSERT INTO users (username, password, firstname, lastname, adresse, zipcode, city, country, mail, phonenumber, gender) VALUES ('{$user["name"]}','{$user["password"]}','{$user["first-name"]}','{$user["last-name"]}','{$user["address"]}','{$user["zipcode"]}','{$user["city"]}','{$user["country"]}','{$user["mail"]}','{$user["phone"]}','{$user["gender"]}')");
+}
+function ValidateUser($db)
 {
     $user = $_SESSION["userToValidate"];
 
@@ -24,18 +46,24 @@ function ValidateUser()
         return;
     }
 
+    // Tjek om en bruger med det indtastede navn allerede findes.
+    $usernameCheckQueryResult = $db->query("SELECT COUNT(*) FROM `users` WHERE username = '{$user["name"]}' ");
+    if ($usernameCheckQueryResult->fetch_assoc()["COUNT(*)"] > 0) {
+        $_SESSION["registerErrors"][] = "Brugeren <strong>{$user["name"]}</strong> findes allerede.";
+    }
+
     // ^\w{3,}$ -- Mindst 3 tægn om enten er bogstaver, tal eller underscores.
     if (!(isset($user["name"]) and preg_match("/^\w{3,}$/", $user["name"]))) {
-        $_SESSION["registerErrors"][] = "Brugernavn skal mindst have 3 karakterer.";
+        $_SESSION["registerErrors"][] = "Brugernavn skal mindst have <strong>3</strong> karakterer.";
     }
 
     // ^\S{8,}+$ -- Mindst 8 tægn hvor ingen af dem er whitespace.
     if (!(isset($user["password"]) and preg_match("/^\S{8,}+$/", $user["password"]))) {
-        $_SESSION["registerErrors"][] = "Kodeord skal mindst have 8 karakterer.";
+        $_SESSION["registerErrors"][] = "Kodeord skal mindst have <strong>8</strong> karakterer.";
     }
 
     if (!(isset($user["password-repeat"]) and $user["password"] == $user["password-repeat"])) {
-        $_SESSION["registerErrors"][] = "Gentag kodeord fælt passer ikke.";
+        $_SESSION["registerErrors"][] = "Gentag Adgangskode fælt passer ikke.";
     }
 
     if (isset($user["country"]) and strtolower($user["country"]) == "danmark") {
@@ -50,8 +78,12 @@ function ValidateUser()
 
 <!DOCTYPE html>
 <html lang="en">
-<?php $title = "Opret Bruger - EDEA";
-include "include/head.php" ?>
+<?php 
+
+$title = "Opret Bruger - EDEA";
+include "include/head.php" 
+
+?>
 
 <body>
     <?php include "include/header-nav.php" ?>
@@ -69,37 +101,37 @@ include "include/head.php" ?>
             </ul>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
                 <label for="username">Brugernavn:</label>
-                <input type="text" name="name" placeholder="Brugernavn" required>
+                <input type="text" name="name" value="<?=$_SESSION["userToValidate"]["name"]?>" placeholder="Brugernavn" required>
 
                 <label for="password">Adgangskode:</label>
-                <input type="text" name="password" placeholder="Adgangskode" required>
-
+                <input type="text" name="password" value="<?=$_SESSION["userToValidate"]["password"]?>" placeholder="Adgangskode" required>
+ 
                 <label for="password-repeat">Gentag Adgangskode:</label>
-                <input type="text" name="password-repeat" placeholder="Gentag Adgangskode" required>
+                <input type="text" name="password-repeat" value="<?=$_SESSION["userToValidate"]["password-repeat"]?>" placeholder="Gentag Adgangskode" required>
 
                 <label for="first-name">Fornavn:</label>
-                <input type="text" name" name="first-name" placeholder="Fornavn" required>
+                <input type="text" name="first-name" value="<?=$_SESSION["userToValidate"]["first-name"]?>" placeholder="Fornavn" required>
 
                 <label for="last-name">Efternavn:</label>
-                <input type="text" name" name="last-name" placeholder="Efternavn" required>
+                <input type="text" name="last-name" value="<?=$_SESSION["userToValidate"]["last-name"]?>" placeholder="Efternavn" required>
 
                 <label for="address">Adresse:</label>
-                <input type="text" name="address" placeholder="Adresse" required>
+                <input type="text" name="address" value="<?=$_SESSION["userToValidate"]["address"]?>" placeholder="Adresse" required>
 
                 <label for="zipcode">Postnummer:</label>
-                <input type="text" name="zipcode" placeholder="Postnummer" required>
+                <input type="text" name="zipcode" value="<?=$_SESSION["userToValidate"]["zipcode"]?>" placeholder="Postnummer" required>
 
                 <label for="city">By:</label>
-                <input type="text" name="city" placeholder="By" required>
+                <input type="text" name="city" value="<?=$_SESSION["userToValidate"]["city"]?>" placeholder="By" required>
 
                 <label for="country">Land:</label>
-                <input type="text" name="country" placeholder="Land" required>
+                <input type="text" name="country" value="<?=$_SESSION["userToValidate"]["country"]?>" placeholder="Land" required>
 
                 <label for="mail">Mail-adresse:</label>
-                <input type="text" name="mail" placeholder="Mail-adresse" required>
+                <input type="text" name="mail" value="<?=$_SESSION["userToValidate"]["mail"]?>" placeholder="Mail-adresse" required>
 
                 <label for="phone">Telefonnummer:</label>
-                <input type="text" name="phone" placeholder="Telefonnummer">
+                <input type="text" name="phone" value="<?=$_SESSION["userToValidate"]["phone"]?>" placeholder="Telefonnummer">
 
                 <label for="gender">Køn:</label>
                 <select name="gender">
@@ -110,7 +142,7 @@ include "include/head.php" ?>
                 </select>
 
                 <label for="age">Alder:</label>
-                <input type="text" name="age" placeholder="Alder">
+                <input type="text" name="age" value="<?=$_SESSION["userToValidate"]["age"]?>" placeholder="Alder">
 
                 <input type="submit" value="Opret">
             </form>

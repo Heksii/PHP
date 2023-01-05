@@ -1,9 +1,5 @@
 <?php
 session_start();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $_SESSION["user"] = $_POST;
-}
 ?>
 
 <!DOCTYPE html>
@@ -15,10 +11,7 @@ include "include/head.php" ?>
 <body>
     <?php include "include/header-nav.php" ?>
     <main>
-        <h1>Velkommen til, <?= $_SESSION["user"]["name"] ?>. Du kan logge ind her:</h1>
-        <section>
-            <?php include "include/loginForm.php" ?>
-        </section>
+        <h1>Velkommen til, <?= $_SESSION["currentUser"] ?>.</h1>
     </main>
     <?php include "include/footer.php" ?>
 </body>

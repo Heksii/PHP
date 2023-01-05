@@ -15,9 +15,8 @@
     </a>
     <div class="grow"></div>
     <?php
-    print_r($_SESSION["user"]);
-    if (isset($_SESSION["user"])) {
-        echo '<p>Velkommmen, ' . $_SESSION["user"]["name"] . '</p>';
+    if (isset($_SESSION["currentUser"])) {
+        echo '<p>Velkommmen, ' . $_SESSION["currentUser"] . '</p>';
     }
     else {
         echo '<a href="login.php">Login</a>';
@@ -46,7 +45,7 @@
         </li>
 
         <?php
-        if (!isset($_SESSION["user"])) {
+        if (!isset($_SESSION["currentUser"])) {
             echo '
             <li>
                 <a href="login.php">Login</a>
@@ -59,10 +58,10 @@
         else {
             echo '
             <li>
-                <a href="#">Min Konto</a>
+                <a href="myUser.php">Min Konto</a>
             </li>
             <li>
-                <a href="logout.php">Logout</a>
+                <a href="logout.php">Log ud</a>
             </li>
             ';
         }

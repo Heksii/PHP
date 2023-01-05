@@ -16,7 +16,7 @@ $monthName = [
     "December",
 ][$month - 1];
 
-$season = round(($month + 1) % 12 / 4);
+$season = round(($month - 1) % 12 / 4);
 $seasonName = [
     "vinter",
     "forår",
@@ -49,7 +49,6 @@ include "include/head.php" ?>
         <section>
             <br>
             <h4>
-                <?php print_r($_SESSION); ?>
                 <?= "Det er ".$monthName." og dermed ".$seasonName.". <br>".$seasonText ?>
             </h4>
             <br>
@@ -65,75 +64,10 @@ include "include/head.php" ?>
             </article>
             <article>
                 <h2>Udvalgte Produkter:</h2>
-                <div id="cards">
-                    <div class="card">
-                        <img src="img\imagecomingsoon.png" alt="">
-                        <div>
-                            <h2>Edea Flamenco Ice</h2>
-                            <p>
-                                <span>Antal stjerner: 6</span>
-                                <span>Støvle stivhed: 70</span>
-                                <span>Understøtter: Alle-danseniveauer</span>
-                                <span>Pris: 2500,-</span>
-                                <span>På lager: Ja </span>
-                            </p>
-
-                            <h3>
-                                Beskrivelse:
-                            </h3>
-                            <p>
-                                Flamenco Ice er fremstillet med henblik på den ynde og elegance, der kendetegner dansesporten.
-                                Ved hjælp af Edeas mangeårige erfaring har vi lavet en støvle, som givere dansere fuld kontrol over deres skær og ekstra fleksibilitet med den lave støvle.
-                                Den unikke indersål giver bedre føling med isen og stabilitet.
-                            </p>
-                        </div>
-                        <button>KØB NU!</button>
-                    </div>
-                    <div class="card">
-                        <img src="img\piano-edea-skates.jpg" alt="">
-                        <div>
-                            <h2>Edea Piano</h2>
-                            <p>
-                                <span>Antal stjerner: 6</span>
-                                <span>Støvle stivhed: 95</span>
-                                <span>Understøtter: Triplespring Quadspring</span>
-                                <span>Pris: 4500,-</span>
-                                <span>På lager: Ja</span>
-                            </p>
-                            <h3>
-                                Beskrivelse:
-                            </h3>
-                            <p>
-                                Kunstskøjteløbere forsøger altid at flytte grænserne, og med den nyeste teknologi er det nu blevet endnu lettere.
-                                Vores dygtige teknikere har med feedback fra verdens bedste skøjteløbere og med brug af den allernyeste teknologi skabt en helt unik ny støvle, Piano.
-                                Edea Piano er 100% håndlavet italiensk design. Vores første støvle, der giver ekstra stabilitet, kraft og bevægelse med det dobbelte antichok system og revolutionære design.
-                            </p>
-                        </div>
-                        <button>KØB NU!</button>
-                    </div>
-                    <div class="card">
-                        <img src="img\overture-edea-skates.jpg" alt="">
-                        <div>
-                            <h2>Edea Overture</h2>
-                            <p>
-                                <span>Antal stjerner: 3</span>
-                                <span>Støvle stivhed: 48</span>
-                                <span>Understøtter: Enkeltspring Axel</span>
-                                <span>Pris: 1175,-</span>
-                                <span>På lager: Ja</span>
-                            </p>
-                            <h3>
-                                Beskrivelse:
-                            </h3>
-                            <p>
-                                Overture er en kombination af let design og Edea teknologi. Det er den mest solgte Edea støvle. Støvlen har stor støtte og fleksibilitet for kunstskøjteløbere, der arbejder på deres grundløb, enkeltspring og axel.
-                                Overture er baseret på vores teknologisk viden om kunstskøjteløb på højt niveau og er baseret på vores passion for kunstskøjteløb.
-                                Edea Overture er 100% håndlavet italiensk design. Støvlen er letvægtsdesign, som sikrer god responsivitet. Den giver en god fornemmelse for isen, som gør det lettere at udvikle det grundlæggende skøjteløb.
-                            </p>
-                        </div>
-                        <button>KØB NU!</button>
-                    </div>
-                </div>
+                <? 
+                $productCount = 3;
+                include("include/productDisplay.php") 
+                ?>
             </article>
 
         </section>
